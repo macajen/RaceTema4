@@ -306,6 +306,13 @@ top_counts_sorted <- cran %>%
 
 ```{r}
 
+top_unique_sorted <- cran %>%
+  group_by(package) %>%
+  summarize(unique = n_distinct(ip_id)) %>%
+  ungroup() %>%
+  mutate(porcentaje = quantile(unique, probs = 0.99)) %>%
+  filter(unique > porcentaje) %>%
+  arrange(desc(unique))
 
 
 
