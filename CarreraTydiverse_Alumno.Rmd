@@ -285,7 +285,13 @@ pack_sum <- by_package %>% summarise(count= n(),
 ```
 23. Repite el apartado anterior utilizando **pipes** para que finalmente el resultado se ordene, en orden descendente, según el número de descargas (`count`) y se almacene el la variable `top_counts_sorted`
 ```{r}
-
+top_counts_sorted <- cran %>%
+                        group_by(package) %>%
+                        summarize(count = n()) %>%
+                        ungroup() %>%
+                        mutate(porcentaje = quantile(count, probs = 0.99)) %>%
+                        filter(count > porcentaje)%>%
+                        arrange(desc(count))
 
 
 
